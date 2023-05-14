@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["@types/node"],
+    "noEmit": true,
+    "allowJs": true
+  },
+  "include": ["__tests__/**/*.ts", ".eslintrc.js", "jest.config.base.js", "jest.config.js", "jest.preset.js"]
+}
