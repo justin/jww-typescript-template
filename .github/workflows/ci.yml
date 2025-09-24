@@ -20,11 +20,10 @@ jobs:
       group: ${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version-file: '.tool-versions'
-          cache: 'npm'
       - run: npm install
       - run: npm run build
       - run: npm test
