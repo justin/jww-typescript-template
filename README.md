@@ -1,5 +1,11 @@
 # TypeScript Project Template
 
+[![CI Status](https://github.com/justin/jww-typescript-template/actions/workflows/ci.yml/badge.svg)](https://github.com/justin/jww-typescript-template/actions/workflows/ci.yml)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D24.13.1-brightgreen)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9%2B-blue)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 A modern TypeScript project template with comprehensive tooling for Node.js development.
 
 ## Features
