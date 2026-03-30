@@ -1,80 +1,161 @@
 # AI Coding Agent Instructions
 
-## Project Overview
+## Purpose
 
-This is a **GitHub template repository** for modern TypeScript projects with ES modules, comprehensive tooling, and VS Code integration. The architecture prioritizes developer experience with composite TypeScript builds, ESM-first configuration, and seamless toolchain integration.
+This repository is a GitHub template for modern TypeScript projects.
 
-## Essential Development Context
+When working here, optimize for:
 
-### TypeScript Configuration Strategy
+- TypeScript + ESM correctness
+- predictable developer tooling
+- minimal, maintainable template changes
+- preserving a good default experience for future template users
 
-- **Composite build system**: `tsconfig.base.json` → `tsconfig.json` (src) + `tsconfig.test.json` (tests)
-- **ES modules only**: Uses `"type": "module"` with `nodenext` module resolution
-- **Build target**: `src/` → `lib/` with declaration maps and source maps enabled
-- **Critical**: Always use `.js` extensions in TypeScript imports for ESM compatibility
+## Quick Rules
 
-### Testing Architecture (Jest + ESM)
+- Treat this repository as ESM-only
+- Put source files in `src/`
+- Put tests in `__tests__/`
+- Never edit generated files in `lib/`
+- Always use `.js` extensions in TypeScript import paths
+- Match the existing project configuration instead of inventing new defaults
+- Keep changes small and targeted
 
-- **Special setup required**: `NODE_OPTIONS="--experimental-vm-modules"` for Jest ESM support
-- **Configuration**: `jest.config.ts` with `ts-jest/presets/default-esm` preset
-- **Pattern**: Tests in `__tests__/` directory, named `*.test.ts`
-- **VS Code integration**: Jest Runner configured with proper environment variables
+## Project Shape
 
-### Code Quality Toolchain
+### Repository role
 
-- **EditorConfig**: Cross-editor settings in `.editorconfig` (LF line endings, UTF-8, 2-space indent, 120 char width)
-- **Prettier**: Configuration in `.prettierrc` (120 char width, no semicolons, single quotes, arrow parens always)
-- **ESLint**: Configuration in `.eslintrc.json` (TypeScript-aware with Prettier integration, relaxed `no-explicit-any` and `no-non-null-assertion`)
-- **Format-on-save enabled** in VS Code with auto-fix on save
-- **Always reference these config files** rather than hardcoding formatting rules
+This is not just an application. It is a reusable template repository, so changes should be broadly sensible for future consumers of the template.
 
-### Development Workflows
+### Source layout
 
-#### Core Commands
+- Source code lives in `src/`
+- Public exports should be surfaced from `src/index.ts`
+- Tests live in `__tests__/` and use the `*.test.ts` naming pattern
+- Build output goes to `lib/`
+
+## TypeScript and Module System
+
+### Module rules
+
+- The project uses `"type": "module"`
+- TypeScript uses Node ESM settings with `nodenext`
+- Imports in TypeScript files must use `.js` extensions
+
+### Build configuration
+
+The TypeScript configuration uses a composite setup:
+
+- `tsconfig.base.json` is the shared base
+- `tsconfig.json` is for source compilation
+- `tsconfig.test.json` is for tests
+
+Build output is `src/` to `lib/`, with declaration files, declaration maps, and source maps enabled.
+
+## Testing
+
+### Jest + ESM
+
+Jest requires ESM support through:
 
 ```bash
-npm run watch    # Primary development - TypeScript compiler in watch mode
-npm run build    # Production build with declaration files
-npm test         # Run Jest with ESM support
-npm run clean    # Nuclear option - clean everything and reinstall
+NODE_OPTIONS="--experimental-vm-modules"
 ```
 
-#### VS Code Tasks (Ctrl+Shift+B)
+Key expectations:
 
-- Default build task: "Build TypeScript Files"
-- Background watch task available
-- Integrated ESLint and clean tasks
+- Jest config lives in `jest.config.ts`
+- The preset is `ts-jest/presets/default-esm`
+- Tests should follow the existing `__tests__/*.test.ts` pattern
 
-### Project Conventions
+Do not run or describe Jest as if this were a CommonJS project.
 
-#### File Structure Patterns
+## Tooling
 
-- **Source**: All TypeScript in `src/`, main export from `src/index.ts`
-- **Output**: Compiled JS/declarations in `lib/` (git-ignored, hidden in VS Code)
-- **Tests**: `__tests__/*.test.ts` pattern, not alongside source files
+### Formatting and linting
 
-#### VS Code Workspace Setup
+Always read and follow the repo configuration before making style decisions:
 
-- **Hidden files**: Compiled JS, node_modules, build artifacts auto-hidden
-- **Jest integration**: Both Jest Runner and Jest extension configured
-- **TypeScript**: Uses workspace TypeScript version, not global
+- `.editorconfig`
+- `.prettierrc`
+- `.eslintrc.json`
 
-#### Template-Specific Patterns
+Do not hardcode formatting assumptions when the config already answers the question.
 
-- **Package.json customization**: Use `npm pkg set` commands for new projects
-- **ESM imports**: Always use `.js` extensions even in TypeScript files
-- **Composite builds**: Incremental compilation with `tsconfig.tsbuildinfo`
+### VS Code integration
 
-### Common Pitfalls to Avoid
+This repository includes VS Code-oriented workflow support:
 
-- Don't use CommonJS patterns (`require`, `module.exports`) - this is ESM-only
-- Don't forget `.js` extensions in imports - they're required for ESM
-- Don't run Jest without `NODE_OPTIONS="--experimental-vm-modules"`
-- Don't edit files in `lib/` - they're generated and will be overwritten
+- format on save
+- ESLint autofix on save
+- Jest integration
+- TypeScript build tasks
 
-### When Making Changes
+These settings are defined in `.vscode/settings.json`.
 
-- **Add dependencies**: Use appropriate `npm install` vs `npm install -D`
-- **New source files**: Place in `src/`, export from `src/index.ts` if public API
-- **New tests**: Use `__tests__/*.test.ts` pattern, follow Jest ESM setup
-- **Config changes**: Consider impact on both development and template users
+If you change config, consider the impact on both CLI and VS Code workflows.
+
+## Commands
+
+Preferred project commands:
+
+```bash
+npm run watch
+npm run build
+npm test
+npm run lint
+npm run lint-fix
+npm run format
+npm run clean
+```
+
+Interpret them as follows:
+
+- `npm run watch`: primary development workflow
+- `npm run build`: production TypeScript build
+- `npm test`: Jest test run with the required ESM `NODE_OPTIONS` already set by the script
+- `npm run lint`: ESLint check
+- `npm run lint-fix`: ESLint autofix
+- `npm run format`: Prettier formatting for TypeScript source and tests
+- `npm run clean`: full cleanup and reinstall path
+
+To run a single test file, prefer:
+
+```bash
+npm test -- __tests__/index.test.ts
+```
+
+## Common Mistakes To Avoid
+
+- Using CommonJS patterns such as `require` or `module.exports`
+- Omitting `.js` from TypeScript import paths
+- Editing files inside `lib/`
+- Putting tests next to source files instead of `__tests__/`
+- Describing config from memory when the repo already defines it explicitly
+
+## Change Guidance
+
+When adding or modifying code:
+
+- add new source files under `src/`
+- export public API from `src/index.ts` when appropriate
+- add tests in `__tests__/`
+- use `npm install` for runtime dependencies
+- use `npm install -D` for development dependencies
+
+When changing configuration:
+
+- preserve ESM compatibility
+- preserve the composite TypeScript build
+- consider template users, not just the immediate repository state
+- avoid unnecessary tool churn
+
+## Decision Heuristics For Agents
+
+When uncertain, prefer the option that:
+
+- keeps the repository ESM-native
+- follows existing config instead of adding parallel config
+- minimizes surprise for future template consumers
+- preserves editor, test, and build integration
+- avoids touching generated output
