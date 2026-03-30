@@ -4,14 +4,19 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
+    "**/coverage": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/tsconfig.tsbuildinfo": true,
     "**/lib": true,
     "**/node_modules": true,
     // Hide derived JavaScript files
-    "**/*.js": { "when": "$(basename).ts" },
-    "**/**.js": { "when": "$(basename).tsx" }
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/**.js": {
+      "when": "$(basename).tsx"
+    }
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
@@ -29,5 +34,7 @@
   "prettier.configPath": "./.prettierrc",
   "prettier.ignorePath": "./.prettierignore",
   "prettier.prettierPath": "./node_modules/prettier",
-  "typescript.tsdk": "./node_modules/typescript/lib"
+  "[typescript]": {
+    "js/ts.tsdk.path": "./node_modules/typescript/lib"
+  }
 }
